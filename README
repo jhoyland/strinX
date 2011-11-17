@@ -1,4 +1,4 @@
-stringX - an XML application for storing tables of short strings for use in programs.
+strinX - an XML application for storing tables of short strings for use in programs.
 
 By James Hoyland (2011)
 
@@ -6,12 +6,12 @@ Free software
 
 Consists of  
 
-stringX.xsd = XML schema for strinX compatible files
-stringXtest.xml = a sample stringX file
+strinX.xsd = XML schema for strinX compatible files
+strinXtest.xml = a sample strinX file
 
 TODO
 
-stringX.php
-stringX.js
+strinX.php
+strinX.js
 
 ++++
