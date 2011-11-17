@@ -1,0 +1,17 @@
+stringX - an XML application for storing tables of short strings for use in programs.
+
+By James Hoyland (2011)
+
+Free software
+
+Consists of  
+
+stringX.xsd = XML schema for strinX compatible files
+stringXtest.xml = a sample stringX file
+
+TODO
+
+stringX.php
+stringX.js
+
+++++
