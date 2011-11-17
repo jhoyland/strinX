@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.jameshoyland.net/schema/strinX" elementFormDefault="qualified">
+  <xsd:element name="stringtable">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="string" type="stringType" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:attribute name="language" type="xsd:language" use="required" />
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="stringType">
+    <xsd:sequence>
+      <xsd:element name="text" type="textType" />
+      <xsd:element name="translate" type="translateType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="xsd:string" use="required" />
+  </xsd:complexType>
+  <!--textType: main text element-->
+  <xsd:complexType name="textType" mixed="true">
+    <xsd:sequence>
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+        <xsd:element name="n" type="escapeCharacter"/>
+        <xsd:element name="t" type="escapeCharacter"/>
+        <xsd:element name="q" type="escapeCharacter" />
+        <xsd:element name="pc" type="escapeCharacter"/>
+        <xsd:element name="lt" type="escapeCharacter"/>
+        <xsd:element name="gt" type="escapeCharacter"/>
+        <xsd:element name="fs" type="escapeCharacter"/>
+        <xsd:element name="bs" type="escapeCharacter"/>
+        <xsd:element name="amp" type="escapeCharacter"/>
+        <xsd:element name="arg" type="argType"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--translateType: translation element, extends textType to add a required language attribute -->
+  <xsd:complexType name="translateType">
+    <xsd:complexContent>
+      <xsd:extension base="textType">
+        <xsd:attribute name="language" type="xsd:language" use="required" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!-- escapeCharacter: for tab and newline characters -->
+  <xsd:complexType name="escapeCharacter">
+    <xsd:attribute name="num" type="xsd:positiveInteger" default="1" minInclusive="1" />
+  </xsd:complexType>
+  <!-- argType: marker for string parameter substitution arguments -->
+  <xsd:complexType name="argType">
+    <xsd:attribute name="id" type="xsd:string" use="optional" />
+    <xsd:attribute name="type" default="any">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="[diufFeEgGxXosc]|any" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="format" type="xsd:string" use="optional" />
+  </xsd:complexType>
+</xsd:schema>
