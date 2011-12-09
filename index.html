@@ -5,34 +5,7 @@
         <title></title>
         <script type="text/javascript" language="JavaScript">
             
-            function strinx(st) {
-                this.textElement = st.getElementsByTagName("text")[0];
-                
-                /* Constructs the string */
-                
-                this.parse = function() {
-                    var j=0;
-                    var ret="";
-                    for(var i=0;i<this.textElement.childNodes.length;i++){
-                        ch = this.textElement.childNodes[i];
-                        if(ch.nodeType == 3) this.textValue+=ch.nodeValue;
-                        if(ch.nodeType == 1) {
-                            if(ch.nodeName == "arg") 
-                                {
-                                    if(j<arguments.length)  
-                                        {ret+=arguments[j];}
-                                    else 
-                                        {ret+="{"+j+"}";}
-                                        
-                                    j++;
-                                        
-                                }
-                        }  
-                    }
-                    return ret;
-                }            
-                
-            }
+   
             
             function remoteStringTable(uri) {
                 this.stringTableURI = uri;
@@ -56,22 +29,34 @@
                 this.defaultLanguage = this.xmlDoc.documentElement.getAttribute("language");   
                 this.currentLanguage = this.defaultLanguage;
                 
-                stringElements = this.xmlDoc.getElementsByTagName("string"); 
+                stringElements = this.xmlDoc.getElementsByTagName("string");
                 
+                this.stringArray = new Array();
                 
+                for(var k=0;k<stringElements.length;k++)
+                    {
+                        var strKey = stringElements[k].getAttribute("id");
+                        alert(strKey);
+                        this.stringArray[strKey] = stringElements[k];
+                    }
+                
+                el1 = this.stringArray["greeting"];
                  
-                this.strings = new Array();
+                 alert("by ID = " + el1);
+                 
+               /* this.strings = new Array();
                 
                 for(var z = 0; z<stringElements.length; z++){
                     node = stringElements[z];
                     alert(node.getAttribute('id'));
                     this.strings[node.getAttribute('id')] = new strinx(node);
-                }
+                }*/
                 
                 this.parseArgs = function(textElement,argList) {
                     var j=0;
                     var ret="";
-                    for(var i=0;i<textElement.childNodes.length;i++){
+                    alert("parseArgs");
+                 /*   for(var i=0;i<textElement.childNodes.length;i++){
                         ch = textElement.childNodes[i];
                         if(ch.nodeType == 3) textValue+=ch.nodeValue;
                         if(ch.nodeType == 1) {
@@ -86,7 +71,7 @@
                                         
                                 }
                         }  
-                    }
+                    }*/
                     return ret;
                 } 
                 
@@ -96,13 +81,18 @@
                 
                 this.getString = function() {
                     
-                    var a = arguments[0];
-                    
-                    var tx = this.xmlDoc.getElementById(a).getTextElement(a,this.currentLanguage);
-                    
-                    
-                    if(arguments.length == 1) {return this.parse(tx,null);}
-                        else {return this.parse(tx,arguments.slice(1));}
+                    alert("getString");
+                   var a = arguments[0];
+                    alert(this.stringArray[a]);
+                    var tx = this.getTextElement(this.stringArray[a],this.currentLanguage);
+                   
+                       
+                    if(arguments.length == 1) {alert("no args");return this.parseArgs(tx,null);}
+                        else 
+                        {alert("some args");
+                           
+                            //return this.parseArgs(tx,arguments.slice(1));
+                        }
                     
                     return "strinX error: No string named " + a;
                 }

@@ -16,7 +16,7 @@ James Hoyland 2011
       <xsd:element name="text" type="textType" />
       <xsd:element name="translate" type="translateType" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
-    <xsd:attribute name="id" type="xsd:string" use="required" />
+    <xsd:attribute name="id" type="xsd:ID" use="required" />
   </xsd:complexType>
   <!--textType: main text element-->
   <xsd:complexType name="textType" mixed="true">
