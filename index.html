@@ -3,10 +3,159 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title></title>
+        <script type="text/javascript" language="JavaScript">
+            
+            function strinx(st) {
+                this.textElement = st.getElementsByTagName("text")[0];
+                
+                /* Constructs the string */
+                
+                this.parse = function() {
+                    var j=0;
+                    var ret="";
+                    for(var i=0;i<this.textElement.childNodes.length;i++){
+                        ch = this.textElement.childNodes[i];
+                        if(ch.nodeType == 3) this.textValue+=ch.nodeValue;
+                        if(ch.nodeType == 1) {
+                            if(ch.nodeName == "arg") 
+                                {
+                                    if(j<arguments.length)  
+                                        {ret+=arguments[j];}
+                                    else 
+                                        {ret+="{"+j+"}";}
+                                        
+                                    j++;
+                                        
+                                }
+                        }  
+                    }
+                    return ret;
+                }            
+                
+            }
+            
+            function remoteStringTable(uri) {
+                this.stringTableURI = uri;
+                
+                alert("making string table: " + uri);
+               if (window.XMLHttpRequest)
+                  {
+                    xhttp=new XMLHttpRequest();
+                  }
+                else // IE 5/6
+                  {
+                    xhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+
+                xhttp.open("GET",uri,false);
+                xhttp.send();
+                
+                this.xmlDoc=xhttp.responseXML;    
+                
+                
+                this.defaultLanguage = this.xmlDoc.documentElement.getAttribute("language");   
+                this.currentLanguage = this.defaultLanguage;
+                
+                stringElements = this.xmlDoc.getElementsByTagName("string"); 
+                
+                
+                 
+                this.strings = new Array();
+                
+                for(var z = 0; z<stringElements.length; z++){
+                    node = stringElements[z];
+                    alert(node.getAttribute('id'));
+                    this.strings[node.getAttribute('id')] = new strinx(node);
+                }
+                
+                this.parseArgs = function(textElement,argList) {
+                    var j=0;
+                    var ret="";
+                    for(var i=0;i<textElement.childNodes.length;i++){
+                        ch = textElement.childNodes[i];
+                        if(ch.nodeType == 3) textValue+=ch.nodeValue;
+                        if(ch.nodeType == 1) {
+                            if(ch.nodeName == "arg") 
+                                {
+                                    if(j<argList.length && argList!=null)  
+                                        {ret+=argList[j];}
+                                    else 
+                                        {ret+="{"+j+"}";}
+                                        
+                                    j++;
+                                        
+                                }
+                        }  
+                    }
+                    return ret;
+                } 
+                
+                this.getTextElement = function(stringElement,lang) {
+                    if(lang == this.defaultLanguage) return stringElement.getElementsByTagName("text")[0];
+                }
+                
+                this.getString = function() {
+                    
+                    var a = arguments[0];
+                    
+                    var tx = this.xmlDoc.getElementById(a).getTextElement(a,this.currentLanguage);
+                    
+                    
+                    if(arguments.length == 1) {return this.parse(tx,null);}
+                        else {return this.parse(tx,arguments.slice(1));}
+                    
+                    return "strinX error: No string named " + a;
+                }
+                
+            }
+            
+            function startUp() {
+           /* if (window.XMLHttpRequest)
+              {
+                xhttp=new XMLHttpRequest();
+              }
+            else // IE 5/6
+              {
+                xhttp=new ActiveXObject("Microsoft.XMLHTTP");
+              }
+
+            xhttp.open("GET","strinXtest.xml",false);
+            xhttp.send();
+            xmlDoc=xhttp.responseXML; 
+
+            root = xmlDoc.documentElement;
+
+            alert(root.getAttribute("language"));
+
+            hi = xmlDoc.getElementsByTagName("string")[0];   
+            
+            alert(hi);
+            
+            hitext = hi.getElementsByTagName("text")[0];
+            
+            var m = "Message";
+            
+            var t = "TEXT:";
+            
+            for(var i=0;i<hitext.childNodes.length;i++){
+                ch = hitext.childNodes[i];
+                if(ch.nodeType == 3) t+=ch.nodeValue;
+                if(ch.nodeType == 1) {
+                    if(ch.nodeName == "arg") t+=" *ARG* ";
+                }
+            }
+            
+            alert(t);*/
+        
+            var stable = new remoteStringTable("strinXtest.xml");
+            
+            
+                        
+            document.getElementById("output").innerHTML = stable.getString("greeting","world");
+            }
+        </script>
     </head>
-    <body>
-        <?php
-        // put your code here
-        ?>
+    <body onload="startUp()">
+        <span id="output">Hi</span>
     </body>
 </html>

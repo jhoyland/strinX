@@ -9,18 +9,29 @@
         A test file for the strinX framework
 -->
 
-<stx:stringtable  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xmlns:stx='http://www.jameshoyland.net/schema/strinX'
+<stringtable  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns='http://www.jameshoyland.net/schema/strinX'
    xsi:schemaLocation='http://www.jameshoyland.net/schema/strinX strinx.xsd' language="en">
-    <stx:string>
-        <stx:text id="greeting">
-            Hello <stx:arg /> !!
-        </stx:text>
-        <stx:translate language="fr">
-            Bounjour <stx:arg /> !!
-        </stx:text>
-        <stx:translate language="da">
-            Hej <stx:arg /> !!
-        </stx:text>
-    </stx:string>
-</stx:stringtable>
+    <string  id="greeting">
+        <text>
+            Hello <arg/> !!
+        </text>
+        <translate language="fr">
+            Bounjour <arg/> !!
+        </translate>
+        <translate language="da">
+            Hej <arg/> !!
+        </translate>
+    </string>    
+    <string  id="howdy">
+        <text>
+            How are you?
+        </text>
+        <translate language="fr">
+            Comment ca va?
+        </translate>
+        <translate language="da">
+            Hvordan gor det?
+        </translate>
+    </string>
+</stringtable>
